@@ -27,6 +27,6 @@ Inicialmente, usted deberá clonar el repositorio con la plantilla de código so
  Ahora, ya puede lanzar la aplicación localmente, con el comando:
  ```ng serve --open ```<br>
  Usted podrá visualizar la aplicación en su navegador en ```http://localhost:4200/``` <br>
-<b>NOTA:<b> Los cambios que realice sobre los archivos de la aplicación se verán reflejados allí, no es necesario volver a lanzar la aplicación para ello.
+NOTA: Los cambios que realice sobre los archivos de la aplicación se verán reflejados allí, no es necesario volver a lanzar la aplicación para ello.
  
  
