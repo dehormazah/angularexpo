@@ -238,5 +238,104 @@ Teniendo el token, se realiza una petición tipo POST a la API para crear un usu
 
 En caso de querer cambiar de usuario (cerrar sesión del usuario actual) se llama a la función ```purgeAuth```, la cual elimina el token del usuario actual, le da al atributo ```currentUser``` el valor de Objeto vacío y al atributo ```isAuthenticated``` el valor ```false```, para finalmente cerrar la sesión previa y permitir que otro usuario pueda ingresar a la aplicación. <br>
 
-Cuando se quiere actualizar la información de un usuario (nombre, biografía, contraseña, etc. <b>VER archivo correspondiente al modelo de</b> ```User``` <b>ubicado en</b> ```src/app/shared/models/user.model.ts )
+Cuando se quiere actualizar la información de un usuario (nombre, biografía, contraseña, etc. <b>VER archivo correspondiente al modelo de</b> ```User``` <b>ubicado en</b> ```src/app/shared/models/user.model.ts```) se emplea el método ```update```, el cual realiza una petición tipo PUT a la API con la respectiva información que quiere actualizarse para el usuario que está en sesión actualmente. 
+
+### Directivas y su funcionalidad
+
+Para que el usuario sepa si se encuentra "loggeado" o no, se necesita mostrar diferentes partes de la interfaz de usuario cuando los usuarios inicien sesión (botones de iniciar/ cerrar sesión, etc.) Para ello se crea una directiva, la cual nos permite mostrar u ocultar elementos HTML según ciertos parámetros. 
+
+Las <b>directivas</b> de Angular son básicamente funciones que son invocadas cuando el DOM (Document Object Model) es compilado por el framework de Angular. Se podría decir que las directivas están ligadas a sus correspondientes elementos del DOM cuando el documento es cargado.  La finalidad de una directiva es modificar o crear un comportamiento totalmente nuevo. En Angular, una directiva se define como una clase que utiliza el decorador ```@Directive```. 
+<br>
+
+Para entender mejor lo anterior, lo ilustraremos con nuestra plantilla de ejemplo. Vamos a darle un vistazo al archivo ```header.component.html``` ubicado en ```src/app/shared/layout/header.component.html```. Dicho archivo corresponde a la vista definida para el componente ```HeaderComponent```:
+
+```typescript
+
+ <nav class="navbar navbar-light">
+  <div class="container">
+
+    <!-- Esto se muestra para los usuarios que no han iniciado sesion -->
+    <ul *appShowAuthed="false"
+      class="nav navbar-nav pull-xs-right">
+
+      <li class="nav-item">
+        <a class="nav-link"
+          routerLink="/">
+          Inicio
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link"
+          routerLink="/login"
+          routerLinkActive="active">
+          Iniciar Sesión
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link"
+          routerLink="/register"
+          routerLinkActive="active">
+          Registrarse
+        </a>
+      </li>
+
+    </ul>
+
+    <!-- Esto se muestra para usuarios que iniciaron sesion-->
+    <ul *appShowAuthed="true"
+      class="nav navbar-nav pull-xs-right">
+
+      <li class="nav-item">
+        <a class="nav-link"
+          routerLink="/"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }">
+          Inicio
+        </a>
+      </li>
+
+
+      <li class="nav-item">
+        <a class="nav-link"
+          routerLink="/settings"
+          routerLinkActive="active">
+          <i class="ion-gear-a"></i>&nbsp;Perfil
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link"
+          [routerLink]="['/profile', currentUser.username]"
+          routerLinkActive="active">
+          <img [src]="currentUser.image" *ngIf="currentUser.image" class="user-pic" />
+          {{ currentUser.username }}
+        </a>
+      </li>
+
+    </ul>
+
+  </div>
+</nav>
+  ```
+Esta vista corresponde al header de nuestra aplicación, es decir, el menú de navegación que usted puede observar en la parte superior de la interfaz de la aplicación. Como nos interesa comprender de qué manera funcionan las directivas, observemos el código. Como se puede ver arriba, hay dos secciones distintas a mostrar en el header (vea los comentarios que indican cuál sección es para un usuario que ha iniciado sesión y cuál para uno que no lo ha hecho). Ahora bien, la pregunta es cómo se decide cuál de las dos secciones mostrar en la interfaz. Fíjese en la directiva definida por ```*appShowAuthed```:
+
+```typescript
+
+    <!-- Esto se muestra para los usuarios que no han iniciado sesion -->
+    <ul *appShowAuthed="false"
+      class="nav navbar-nav pull-xs-right">
+```
+Esta es una directiva de tipo estructural. Estas directivas, que se diferencian fácilmente al ser precedidas por un asterisco, alteran el layout añadiendo, eliminando o reemplazando elementos en el DOM. Un par de ejemplos de dichas directivas son:
+
+- *ngIf: si la condición se cumple, su elemento se inserta en el DOM, en caso contrario, se elimina del DOM. 
+- *ngFor: repite su elemento en el DOM una vez por cada item que hay en el iterador que se le pasa, siguiendo una sintaxis de ES6. 
+ 
+ Volviendo a nuestro ejemplo,cuando ```*appShowAuthed``` sea igual a ```true``` se mostrará la sección que debe ver un usuario que ha iniciado sesión y cuando sea igual a ```false``` se mostrarán los elementos que debe visualizar un usuario que aun no lo ha hecho. 
+ 
+ Examinemos la clase de la directiva en mención. Para ello nos dirigimos al archivo ```show-authed.directive.ts``` en 
+
+
+
 
