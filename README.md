@@ -18,6 +18,5 @@ La aplicación que usted completará a través de este tutorial y visualizará f
 Inicialmente, usted deberá clonar el repositorio con la plantilla de código sobre la cual se trabajará en este tutorial, e instalar el CLI de angular para poder ejecutar la aplicación en su máquina de manera local. Para ello ejecute los siguientes comandos:</p>
 <br>
 
-
-
+```git clone https://github.com/dehormazah/angularexpo```
 ``` npm install -g @angular/cli ```
