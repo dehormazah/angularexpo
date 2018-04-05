@@ -165,4 +165,74 @@ Para ver las peticiones que pueden hacerse a la API vamos a inspeccionar el arch
     ).pipe(catchError(this.formatErrors));
   }
   ```
+Allí se encuentran, descritas por dichas funciones, las peticiones HTTP básicas para realizar operaciones de tipo CRUD con los usuarios almacenados en la base de datos de la API. Básicamente, las funciones construyen la petición correspondiente a partir de un atributo ```path``` de tipo ```string``` y un Objeto ```body``` que define el cuerpo de la petición como se hace tradicionalmente. 
+<br>
+Ahora, veremos el servicio utilizado para acceder a los usuarios, autenticarlos y llevar la información del archivo que se encuentra en sesión activa en cierto momento. Este es el ```UserService```, ubicado en ```src/app/shared/services/user.service.ts```, estudiaremos las funciones que encontramos allí, para comprender de qué manera se hace la autenticación de usuarios y el manejo de sesiones.
+
+```typescript
+
+  populate() {
+    // If JWT detected, attempt to get & store user's info
+    if (this.jwtService.getToken()) {
+      this.apiService.get('/user')
+      .subscribe(
+        data => this.setAuth(data.user),
+        err => this.purgeAuth()
+      );
+    } else {
+      // Remove any potential remnants of previous auth states
+      this.purgeAuth();
+    }
+  }
+
+  setAuth(user: User) {
+    // Save JWT sent from server in localstorage
+    this.jwtService.saveToken(user.token);
+    // Set current user data into observable
+    this.currentUserSubject.next(user);
+    // Set isAuthenticated to true
+    this.isAuthenticatedSubject.next(true);
+  }
+
+  purgeAuth() {
+    // Remove JWT from localstorage
+    this.jwtService.destroyToken();
+    // Set current user to an empty object
+    this.currentUserSubject.next({} as User);
+    // Set auth status to false
+    this.isAuthenticatedSubject.next(false);
+  }
+
+  attemptAuth(type, credentials): Observable<User> {
+    const route = (type === 'login') ? '/login' : '';
+    return this.apiService.post('/users' + route, {user: credentials})
+      .pipe(map(
+      data => {
+        this.setAuth(data.user);
+        return data;
+      }
+    ));
+  }
+
+  getCurrentUser(): User {
+    return this.currentUserSubject.value;
+  }
+
+  // Update the user on the server (email, pass, etc)
+  update(user): Observable<User> {
+    return this.apiService
+    .put('/user', { user })
+    .pipe(map(data => {
+      // Update the currentUser observable
+      this.currentUserSubject.next(data.user);
+      return data.user;
+    }));
+  }}
+  ```
+
+La función ```attemptAuth``` determina si un usuario ya está registrado o no y según esto, determina una petición de tipo POST a la API a una ruta determinada por ```route```. Si el usuario ya está registrado en la aplicación la ruta para la petición terminará en ```/users/login```, de lo contrario la ruta para hacer POST y crear un nuevo usuario terminará en ```/users```. <br>
+
+Al interior de dicha función también se hace un llamado a ```setAuth``` para realizar la autenticación del usuario. En esa función, usando el servicio ```JwtService``` se obtiene y guarda el token del usuario y se selecciona el nuevo usuario que estará en sesión en la aplicación, además de darle el valor de ```true``` a la variable ```isAuthenticated``` para validar la autenticación del usuario.<br>
+
+Teniendo el token, se realiza una petición tipo POST a la API para crear un usuario o registrar su inicio de sesión (si el usuario ya existe). En caso de que las credenciales ingresadas no correspondan con un usuario creado se muestra un mensaje de error alertando al usuario de ello. Si el usuario ya se ha registrado anteriormente o ingresó las credenciales válidas para registrarse, se obtiene y almacena la información de dicho usuario para mostrar las respectivas vistas en la aplicación. La sesión persiste aunque se recargue la página, debido a la manera en que se hace el control de la misma.<br>
 
