@@ -11,14 +11,13 @@ El propósito de este tutorial es explicar de manera sencilla e ilustrativa los 
 ## Aplicación de ejemplo
 
 <p align="justify">
-La aplicación que usted completará a través de este tutorial y visualizará funcionando al final del mismo interactúa con un servidor de backend (API) para gestionar la autenticación de usuarios y el manejo de sesiones. También permite mostrar el perfil de un usuario con varios atributos que pueden ser modificados y actualizados a partir de la interacción con elementos HTML.
-</p>
+La aplicación que usted completará a través de este tutorial y visualizará funcionando al final del mismo interactúa con un servidor de backend (API) para gestionar la autenticación de usuarios y el manejo de sesiones. También permite mostrar el perfil de un usuario con varios atributos que pueden ser modificados y actualizados a partir de la interacción con elementos HTML.</p>
 
 ## Para empezar
 <p align="justify">
 Inicialmente, usted deberá clonar el repositorio con la plantilla de código sobre la cual se trabajará en este tutorial, e instalar el CLI de angular para poder ejecutar la aplicación en su máquina de manera local. Para ello ejecute los siguientes comandos:</p>
 <br>
-```npm install -g @angular/cli
+```npm install -g @angular/cli```
 git clone https://github.com/dehormazah/angularexpo```
  <br>
  Ahora deberá situarse en el directorio donde se encuentran los archivos de la aplicación, ejecutando el siguiente comando:<br>
