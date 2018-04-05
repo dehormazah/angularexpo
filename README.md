@@ -17,19 +17,16 @@ La aplicación que usted completará a través de este tutorial y visualizará f
 <p align="justify">
 Inicialmente, usted deberá clonar el repositorio con la plantilla de código sobre la cual se trabajará en este tutorial, e instalar el CLI de angular para poder ejecutar la aplicación en su máquina de manera local. Para ello ejecute los siguientes comandos:</p>
 <br>
-
 ``` npm install -g @angular/cli ```<br>
 ```git init ```<br>
 ```git clone https://github.com/dehormazah/angularexpo```
- 
- Luego, deberá ubicarse en el directorio creado al clonar el repositorio:
- 
- ```cd angularexpo```<br>
+  Luego, deberá ubicarse en el directorio creado al clonar el repositorio:
+  ```cd angularexpo```<br>
  e instalar las dependencias requeridas con el comando:
  ```npm install ```<br>
  Ahora, ya puede lanzar la aplicación localmente, con el comando:
  ```ng serve --open ```<br>
  Usted podrá visualizar la aplicación en su navegador en ```http://localhost:4200/``` <br>
-<b>NOTA:</> Los cambios que realice sobre los archivos de la aplicación se verán reflejados allí, no es necesario volver a lanzar la aplicación para ello.
+<b>NOTA:<b/> Los cambios que realice sobre los archivos de la aplicación se verán reflejados allí, no es necesario volver a lanzar la aplicación para ello.
  
  
