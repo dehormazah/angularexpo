@@ -54,7 +54,8 @@ Un componente está compuesto por tres partes fundamentales:
 
 Por su parte, tenemos el decorador, que es una especie de registro del componente y que hace de "pegamento" entre el Javascript y el HTML.</p>
 
-Para confirmar lo anterior, puede navegar entre las carpetas ubicadas en ```src/app/``` que definen los componentes de la aplicación: ```auth, home y settings```. Como podrá ver, en cada una de ellas hay al menos dos archivos con extensiones: ```.ts y .html```, en algunas de ellas hay incluso otro archivo ```.css``` (opcional) que define los estilos vinculados a los elementos HTML. El archivo ```.ts``` define la clase del componente y contiene ciertas funciones, métodos y otras declaraciones necesarias para el funcionamiento correcto del componente y su respectiva vista. Para profundizar en lo anterior y ver la organización de un componente con un ejemplo concreto, vamos a estudiar el código en ```src/app/home/home.component.ts```:<br>
+<p align="justify">
+Para confirmar lo anterior, puede navegar entre las carpetas ubicadas en ```src/app/``` que definen los componentes de la aplicación: ```auth, home y settings```. Como podrá ver, en cada una de ellas hay al menos dos archivos con extensiones: ```.ts y .html```, en algunas de ellas hay incluso otro archivo ```.css``` (opcional) que define los estilos vinculados a los elementos HTML. El archivo ```.ts``` define la clase del componente y contiene ciertas funciones, métodos y otras declaraciones necesarias para el funcionamiento correcto del componente y su respectiva vista. Para profundizar en lo anterior y ver la organización de un componente con un ejemplo concreto, vamos a estudiar el código en ```src/app/home/home.component.ts```:</p> <br>
 
 ```typescript
 import { Component, OnInit } from '@angular/core';
@@ -86,5 +87,8 @@ export class HomeComponent implements OnInit {
 }
 
 ```
+<p align="justify">
+En primer lugar vemos que hay tres sentencias que comienzan con la palabra ```import```, las cuales se encargan de importar otros componentes que son necesarios para que el componente actual tenga acceso a ciertas funciones y otros elementos. En este caso, se importan las clases ```Component``` y ```Router``` y la interfaz ```OnInit```, además del servicio ```UserService```. 
+Los <b>servicios</b> son clases TypeScript. Su propósito es contener lógica de negocio, clases para acceso a datos o utilidades de infraestructura. Estas clases son perfectamente instanciables desde cualquier otro fichero que las importe. La particularidad de las clases de servicios está en su decorador: ```@Injectable()```. Esta función viene en el ```@angular/core``` e indica que esta clase puede ser inyectada dinámicamente a quien la demande.</p>
 
  
