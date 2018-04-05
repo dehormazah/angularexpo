@@ -88,7 +88,7 @@ export class HomeComponent implements OnInit {
 
 ```
 
-### Decorador de un componente y Servicios
+### Decorador de un componente, declaraciones import y export, constructor del componente y Servicios
 
 En primer lugar vemos que hay tres sentencias que comienzan con la palabra ```import```, las cuales se encargan de importar otros componentes que son necesarios para que el componente actual tenga acceso a ciertas funciones y otros elementos. En este caso, se importan las clases ```Component``` y ```Router``` y la interfaz ```OnInit```, además del servicio ```UserService```. 
 Los <b>servicios</b> son clases TypeScript. Su propósito es contener lógica de negocio, clases para acceso a datos o utilidades de infraestructura. Estas clases son perfectamente instanciables desde cualquier otro fichero que las importe. La particularidad de las clases de servicios está en su decorador: ```@Injectable()```. Esta función viene en el ```@angular/core``` e indica que esta clase puede ser inyectada dinámicamente a quien la demande.
@@ -103,9 +103,66 @@ Avanzando por el código encontramos el decorador  ```@Component```. Angular usa
 ```
 En el decorador estamos agregando diversas propiedades específicas del componente. Esa información en este caso concreto se conoce como "anotación" y lo que le entregamos son unos "metadatos" que no hacen más que describir al componente que se está creando. En este caso son los siguentes:
 
-- selector: este es el nombre de la etiqueta nueva que crearemos cuando se procese el componente. Es la etiqueta que usarás cuando quieras colocar el componente en cualquier lugar del HTML.
+- selector: este es el nombre de la etiqueta nueva que crearemos cuando se procese el componente. Es la etiqueta que se usará cuando se quiera colocar el componente en cualquier lugar del HTML.
 - templateUrl: es el nombre del archivo .html con el contenido del componente, en otras palabras, el que tiene el código de la vista.
-- styleUrls: es un array con todas las hojas de estilos CSS que deben procesarse como estilo local para este componente. Como ves, podríamos tener una única declaración de estilos, o varias si lo consideramos necesario.
+- styleUrls: es un array con todas las hojas de estilos CSS que deben procesarse como estilo local para este componente. Es posible tener una única declaración de estilos, o varias si se considera necesario.
 
+Luego tenemos el segmento de código:
 
- 
+```typescript
+export class HomeComponent implements OnInit {
+  constructor(
+    private router: Router,
+    private userService: UserService
+  ) {}
+
+  isAuthenticated: boolean;
+
+  ngOnInit() {
+    this.userService.isAuthenticated.subscribe(
+      (authenticated) => {
+        this.isAuthenticated = authenticated;
+
+      }
+    );
+  }
+}
+```
+En el cual se exporta la clase del componente actual, que hará las veces de controlador y además se implementa la interfaz ```OnInit```, que simplemente indica que dentro de la clase del componente vamos a definir la funcion ```ngOnInit()```, donde podremos colocar código a ejecutar cuando se tenga la certeza que el componente ha sido inicializado ya. A continuación se encuentra el constructor del componente. El <b>constructor</b> es un método por defecto de la clase del componente que se ejecuta cuando la clase es instanciada y asegura una inicialización correcta de los campos en la clase y sus subclases.
+<br>
+Además encontramos la declaración de una variable usada por la clase llamada ```isAuthenticated``` de tipo ```boolean``` y la función ```ngOnInit()``` de la cual ya habíamos hablado anteriormente.
+
+### Servicios y sus funciones en la aplicación de ejemplo
+
+<p align="justify">
+Como lo habíamos mencionado al inicio, la aplicación se comunica con un servicio de backend (API) para consumir la información allí almacenada y poder realizar distintas operaciones a partir de esta. La API está desplegada de forma remota y es capaz de recibir distintas peticiones para crear usuarios, autenticarlos y realizar cambios en sus perfiles.</p>
+
+Para ver las peticiones que pueden hacerse a la API vamos a inspeccionar el archivo ```api.service.ts``` el cual se encuentra ubicado en ```src/app/shared/services/api.service.ts```. El código que nos interesa es el siguiente:
+
+```typescript
+  get(path: string, params: HttpParams = new HttpParams()): Observable<any> {
+    return this.http.get(`${environment.api_url}${path}`, { params })
+      .pipe(catchError(this.formatErrors));
+  }
+
+  put(path: string, body: Object = {}): Observable<any> {
+    return this.http.put(
+      `${environment.api_url}${path}`,
+      JSON.stringify(body)
+    ).pipe(catchError(this.formatErrors));
+  }
+
+  post(path: string, body: Object = {}): Observable<any> {
+    return this.http.post(
+      `${environment.api_url}${path}`,
+      JSON.stringify(body)
+    ).pipe(catchError(this.formatErrors));
+  }
+
+  delete(path): Observable<any> {
+    return this.http.delete(
+      `${environment.api_url}${path}`
+    ).pipe(catchError(this.formatErrors));
+  }
+  ```
+
