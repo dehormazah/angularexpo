@@ -321,7 +321,7 @@ Para entender mejor lo anterior, lo ilustraremos con nuestra plantilla de ejempl
   ```
 Esta vista corresponde al header de nuestra aplicación, es decir, el menú de navegación que usted puede observar en la parte superior de la interfaz de la aplicación. Como nos interesa comprender de qué manera funcionan las directivas, observemos el código. Como se puede ver arriba, hay dos secciones distintas a mostrar en el header (vea los comentarios que indican cuál sección es para un usuario que ha iniciado sesión y cuál para uno que no lo ha hecho). Ahora bien, la pregunta es cómo se decide cuál de las dos secciones mostrar en la interfaz. Fíjese en la directiva definida por ```*appShowAuthed```:
 
-```typescript
+```html
 
     <!-- Esto se muestra para los usuarios que no han iniciado sesion -->
     <ul *appShowAuthed="false"
