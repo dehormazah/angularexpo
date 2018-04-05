@@ -167,7 +167,7 @@ Para ver las peticiones que pueden hacerse a la API vamos a inspeccionar el arch
   ```
 Allí se encuentran, descritas por dichas funciones, las peticiones HTTP básicas para realizar operaciones de tipo CRUD con los usuarios almacenados en la base de datos de la API. Básicamente, las funciones construyen la petición correspondiente a partir de un atributo ```path``` de tipo ```string``` y un Objeto ```body``` que define el cuerpo de la petición como se hace tradicionalmente. 
 <br>
-Ahora, veremos el servicio utilizado para acceder a los usuarios, autenticarlos y llevar la información del archivo que se encuentra en sesión activa en cierto momento. Este es el ```UserService```, ubicado en ```src/app/shared/services/user.service.ts```, estudiaremos las funciones que encontramos allí, para comprender de qué manera se hace la autenticación de usuarios y el manejo de sesiones.
+Ahora, veremos el servicio utilizado para acceder a los usuarios, autenticarlos y llevar la información del usuario que se encuentra en sesión activa en cierto momento. Este es el ```UserService```, ubicado en ```src/app/shared/services/user.service.ts```, estudiaremos las funciones que encontramos allí, para comprender de qué manera se hace la autenticación de usuarios y el manejo de sesiones.
 
 ```typescript
 
