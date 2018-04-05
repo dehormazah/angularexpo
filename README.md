@@ -236,3 +236,7 @@ Al interior de dicha función también se hace un llamado a ```setAuth``` para r
 
 Teniendo el token, se realiza una petición tipo POST a la API para crear un usuario o registrar su inicio de sesión (si el usuario ya existe). En caso de que las credenciales ingresadas no correspondan con un usuario creado se muestra un mensaje de error alertando al usuario de ello. Si el usuario ya se ha registrado anteriormente o ingresó las credenciales válidas para registrarse, se obtiene y almacena la información de dicho usuario para mostrar las respectivas vistas en la aplicación. La sesión persiste aunque se recargue la página, debido a la manera en que se hace el control de la misma.<br>
 
+En caso de querer cambiar de usuario (cerrar sesión del usuario actual) se llama a la función ```purgeAuth```, la cual elimina el token del usuario actual, le da al atributo ```currentUser``` el valor de Objeto vacío y al atributo ```isAuthenticated``` el valor ```false```, para finalmente cerrar la sesión previa y permitir que otro usuario pueda ingresar a la aplicación. <br>
+
+Cuando se quiere actualizar la información de un usuario (nombre, biografía, contraseña, etc. <b>VER archivo correspondiente al modelo de</b> ```User``` <b>ubicado en</b> ```src/app/shared/models/user.model.ts )
+
