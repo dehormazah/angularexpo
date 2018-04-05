@@ -42,7 +42,7 @@ NOTA: Los cambios que realice sobre los archivos de la aplicación se verán ref
 <p align="justify">
 Como puede observar, la aplicación no es muy atractiva por ahora, apenas contiene un menú de navegación para ir entre las vistas Inicio, Iniciar Sesión y Registrarse así como algunos formularios para introducir texto en las dos últimas vistas mencionadas. Nuestra tarea es completar la plantilla base de dicha aplicación para visualizar el resultado final y poder realizar acciones como registrar un usuario nuevo, iniciar sesión, modificar el perfil de un usuario y cerrar sesión sin perder la información de un usuario registrado para tener la posibilidad de volver a entrar a la aplicación luego de ello.</p>
 
-# Estructura de un componente
+### Estructura de un componente
 
 Un componente está compuesto por tres partes fundamentales: 
 
@@ -88,7 +88,24 @@ export class HomeComponent implements OnInit {
 
 ```
 
+### Decorador de un componente y Servicios
+
 En primer lugar vemos que hay tres sentencias que comienzan con la palabra ```import```, las cuales se encargan de importar otros componentes que son necesarios para que el componente actual tenga acceso a ciertas funciones y otros elementos. En este caso, se importan las clases ```Component``` y ```Router``` y la interfaz ```OnInit```, además del servicio ```UserService```. 
 Los <b>servicios</b> son clases TypeScript. Su propósito es contener lógica de negocio, clases para acceso a datos o utilidades de infraestructura. Estas clases son perfectamente instanciables desde cualquier otro fichero que las importe. La particularidad de las clases de servicios está en su decorador: ```@Injectable()```. Esta función viene en el ```@angular/core``` e indica que esta clase puede ser inyectada dinámicamente a quien la demande.
+<br>
+Avanzando por el código encontramos el decorador  ```@Component```. Angular usa los decoradores para registrar un componente, añadiendo información para que éste sea reconocido por otras partes de la aplicación. La forma de un decorador es la siguiente: 
+```typescript
+@Component({
+  selector: 'app-home-page',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
+})
+```
+En el decorador estamos agregando diversas propiedades específicas del componente. Esa información en este caso concreto se conoce como "anotación" y lo que le entregamos son unos "metadatos" que no hacen más que describir al componente que se está creando. En este caso son los siguentes:
+
+- selector: este es el nombre de la etiqueta nueva que crearemos cuando se procese el componente. Es la etiqueta que usarás cuando quieras colocar el componente en cualquier lugar del HTML.
+- templateUrl: es el nombre del archivo .html con el contenido del componente, en otras palabras, el que tiene el código de la vista.
+- styleUrls: es un array con todas las hojas de estilos CSS que deben procesarse como estilo local para este componente. Como ves, podríamos tener una única declaración de estilos, o varias si lo consideramos necesario.
+
 
  
