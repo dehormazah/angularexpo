@@ -50,8 +50,41 @@ Un componente está compuesto por tres partes fundamentales:
 - Una clase
 - Una función decoradora
 
-<p align="justify">Las dos primeras partes corresponden con capas de lo que conocemos como MVC. El template será lo que se conoce como vista y se escribe en HTML y lo que correspondería con el controlador se escribe en Javascript por medio de una clase (de programación orientada a objetos).
+<p align="justify">Las dos primeras partes corresponden con capas de lo que conocemos como MVC (Modelo-Vista-COntrolador). El template será lo que se conoce como vista y se escribe en HTML y lo que correspondería con el controlador se escribe en Javascript por medio de una clase (de programación orientada a objetos).
 
 Por su parte, tenemos el decorador, que es una especie de registro del componente y que hace de "pegamento" entre el Javascript y el HTML.</p>
+
+Para confirmar lo anterior, puede navegar entre las carpetas ubicadas en ```src/app/``` que definen los componentes de la aplicación: ```auth, home y settings```. Como podrá ver, en cada una de ellas hay al menos dos archivos con extensiones: ```.ts y .html```, en algunas de ellas hay incluso otro archivo ```.css``` (opcional) que define los estilos vinculados a los elementos HTML. El archivo ```.ts``` define la clase del componente y contiene ciertas funciones, métodos y otras declaraciones necesarias para el funcionamiento correcto del componente y su respectiva vista. Para profundizar en lo anterior y ver la organización de un componente con un ejemplo concreto, vamos a estudiar el código en ```src/app/home/home.component.ts```:<br>
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { UserService } from '../shared';
+
+@Component({
+  selector: 'app-home-page',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
+})
+export class HomeComponent implements OnInit {
+  constructor(
+    private router: Router,
+    private userService: UserService
+  ) {}
+
+  isAuthenticated: boolean;
+
+  ngOnInit() {
+    this.userService.isAuthenticated.subscribe(
+      (authenticated) => {
+        this.isAuthenticated = authenticated;
+
+      }
+    );
+  }
+}
+
+```
 
  
