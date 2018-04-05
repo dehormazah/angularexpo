@@ -249,7 +249,7 @@ Las <b>directivas</b> de Angular son básicamente funciones que son invocadas cu
 
 Para entender mejor lo anterior, lo ilustraremos con nuestra plantilla de ejemplo. Vamos a darle un vistazo al archivo ```header.component.html``` ubicado en ```src/app/shared/layout/header.component.html```. Dicho archivo corresponde a la vista definida para el componente ```HeaderComponent```:
 
-```typescript
+```html
 
  <nav class="navbar navbar-light">
   <div class="container">
