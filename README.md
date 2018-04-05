@@ -42,5 +42,16 @@ NOTA: Los cambios que realice sobre los archivos de la aplicación se verán ref
 <p align="justify">
 Como puede observar, la aplicación no es muy atractiva por ahora, apenas contiene un menú de navegación para ir entre las vistas Inicio, Iniciar Sesión y Registrarse así como algunos formularios para introducir texto en las dos últimas vistas mencionadas. Nuestra tarea es completar la plantilla base de dicha aplicación para visualizar el resultado final y poder realizar acciones como registrar un usuario nuevo, iniciar sesión, modificar el perfil de un usuario y cerrar sesión sin perder la información de un usuario registrado para tener la posibilidad de volver a entrar a la aplicación luego de ello.</p>
 
+# Estructura de un componente
+
+Un componente está compuesto por tres partes fundamentales: 
+
+- Un template
+- Una clase
+- Una función decoradora
+
+<p align="justify">Las dos primeras partes corresponden con capas de lo que conocemos como MVC. El template será lo que se conoce como vista y se escribe en HTML y lo que correspondería con el controlador se escribe en Javascript por medio de una clase (de programación orientada a objetos).
+
+Por su parte, tenemos el decorador, que es una especie de registro del componente y que hace de "pegamento" entre el Javascript y el HTML.</p>
 
  
