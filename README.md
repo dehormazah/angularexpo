@@ -335,7 +335,125 @@ Esta es una directiva de tipo estructural. Estas directivas, que se diferencian 
  Volviendo a nuestro ejemplo,cuando ```*appShowAuthed``` sea igual a ```true``` se mostrará la sección que debe ver un usuario que ha iniciado sesión y cuando sea igual a ```false``` se mostrarán los elementos que debe visualizar un usuario que aun no lo ha hecho. 
  
  Examinemos la clase de la directiva en mención. Para ello nos dirigimos al archivo ```show-authed.directive.ts``` en 
+```src/app/shared/show-authed.directive.ts```. El selector de esta directiva es ```appShowAuthed```, que es la directiva estructural usada en el componente header como se describió anteriormente:
 
 
+```typescript
+@Directive({ selector: '[appShowAuthed]' })
+export class ShowAuthedDirective implements OnInit {
+  constructor(
+    private templateRef: TemplateRef<any>,
+    private userService: UserService,
+    private viewContainer: ViewContainerRef
+  ) {}
+```
+La directiva también posee un constructor, en el cual se inicializan los valores respectivos de la directiva en mención. El siguiente trozo de código se encarga de determinar el valor de ```appShowAuthed``` (```true``` o ```false```) consultando a través de la variable ```isAuthenticated``` si el usuario se ha autenticado o no.
+
+```typescript
+  ngOnInit() {
+    this.userService.isAuthenticated.subscribe(
+      (isAuthenticated) => {
+        if (isAuthenticated && this.condition || !isAuthenticated && !this.condition) {
+          this.viewContainer.createEmbeddedView(this.templateRef);
+        } else {
+          this.viewContainer.clear();
+        }
+      }
+    );
+  }
+  ```
+  
+  Ahora bien, luego de haber estudiado y comprendido algunos de los elementos principales de Angular y de mostrar algunas de sus funcionalidades en una aplicación, completaremos la plantilla de código de nuestro ejemplo para verlo funcionando y poder interactuar con él.
+  
+### Completando la plantilla de ejemplo
+
+En esta sección nos encargaremos de agregar código a nuestra plantilla para completar las vistas de la aplicación y poder hacer uso de su interfaz y funcionalidades.
+<br>
+En primer lugar, editaremos el archivo ```home.component.html``` ubicado en ```src/app/home/home.component.html```. Esta es la vista del inicio de nuestra aplicación, la cual está definida por el selector ```app-home-page```:
+
+```html
+<div class="home-page">
+
+  <div class="banner" *appShowAuthed="false">
+    <div class="container">
+
+
+      
+    </div>
+
+  </div>
+
+
+</div>
+```
+vamos a editar el contenido de las etiquetas ```div``` para mostrar el nombre y un "slogan" de nuestra aplicación. El resultado sería el siguiente:
+
+```html
+<div class="home-page">
+
+  <div class="container">
+      <h1 class="title">NOMBRE DE LA APP</h1>
+      <h3 class="phrase"><i>Slogan</i></h3>
+    </div>
+
+  </div>
+
+
+</div>
+```
+Tras haber guardado dichos cambios, usted podrá visualizar la aplicación en ```http://localhost:4200/``` con la nueva vista para la sección de Inicio.
+
+Ahora agregaremos código en la vista definida por el archivo ```auth.component.html``` ubicado en ```src/app/auth/auth.component.html```, vista que corresponde a las secciones de Registrarse e Iniciar Sesión. Usted puede remplazar el contenido existente en dicho archivo por el siguiente código, que pasaremos a explicar a continuación: 
+
+ ```html
+<div class="auth-page">
+  <div class="container page">
+    <div class="row">
+
+      <div class="col-md-6 offset-md-3 col-xs-12">
+        <h1 class="text-xs-center">{{ title }}</h1>
+        <p class="text-xs-center">
+          <a [routerLink]="['/login']" *ngIf="authType == 'register'">Tiene una cuenta?</a>
+          <a [routerLink]="['/register']" *ngIf="authType == 'login'">Cree una cuenta nueva</a>
+        </p>
+        <app-list-errors [errors]="errors"></app-list-errors>
+        <form [formGroup]="authForm" (ngSubmit)="submitForm()">
+          <fieldset [disabled]="isSubmitting">
+            <fieldset class="form-group">
+              <input
+                formControlName="username"
+                placeholder="nombre de usuario"
+                class="form-control form-control-lg"
+                type="text"
+                *ngIf="authType == 'register'" />
+            </fieldset>
+            <fieldset class="form-group">
+              <input
+                formControlName="email"
+                placeholder="correo electrónico"
+                class="form-control form-control-lg"
+                type="text" />
+            </fieldset>
+            <fieldset class="form-group">
+              <input
+                formControlName="password"
+                placeholder="contraseña"
+                class="form-control form-control-lg"
+                type="password" />
+            </fieldset>
+            <button class="btn btn-lg btn-primary pull-xs-right" [disabled]="!authForm.valid" type="submit">
+              {{ title }}
+            </button>
+          </fieldset>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+```
+Como podemos ver, la vista está conformada por etiquetas de tipo ```div```, así como formularios compuestos por distintos campos en los cuales el usuario podrá ingresar sus credenciales (nombre de usuario, email, contraseña). El valor de la variable ```title``` que se encuentra en la primera etiqueta ```h1``` de arriba hacia abajo es definido en la función ```ngOnInit``` en la clase ```auth.component.ts``` según la ruta a la que se dirija el usuario (Iniciar Sesión o Registro). La directiva ```[routerLink]``` determina el link que debe mostrarse según la ruta en la que se encuentre el usuario. Si dicha ruta corresponde al login, el texto del link será "Tiene una cuenta?", en caso contrario: "Cree una cuenta nueva". Cuando se hayan completado todos los campos necesarios, el botón que se encuentra descrito en la última parte del código llamará a la función ```submitForm``` que es empleada por el método que ya consideramos anteriormente ```attemptAuth```, que se encarga de validar la autenticación del usuario a partir de las credenciales ingresadas por este en los campos de texto.
+<br>
+Cuando termine de hacer esto, usted podrá ver que puede navegar entre las opciones de Iniciar Sesión y Registrarse, y ahora puede crear una "cuenta" con un nickname, un correo electrónico y una contraseña. Sin embargo, aun no puede ver su perfil de usuario ni comprobar que su cuenta ha sido registrada y autenticada por la aplicación, y que puede cerrar sesión y luego volver a ingresar al sistema sin ningún problema.<br>
 
 
