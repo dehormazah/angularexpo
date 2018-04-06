@@ -347,7 +347,7 @@ export class ShowAuthedDirective implements OnInit {
     private viewContainer: ViewContainerRef
   ) {}
 ```
-La directiva también posee un constructor, en el cual se inicializan los valores respectivos de la directiva en mención. El siguiente trozo de código se encarga de determinar el valor de ```appShowAuthed``` (```true``` o ```false```) consultando a través de la variable ```isAuthenticated``` si el usuario se ha autenticado o no.
+La directiva también posee un constructor, en el cual se inicializan atributos determinados de la misma. El siguiente trozo de código se encarga de determinar el valor de ```appShowAuthed``` (```true``` o ```false```) consultando a través de la variable ```isAuthenticated``` si el usuario se ha autenticado o no.
 
 ```typescript
   ngOnInit() {
