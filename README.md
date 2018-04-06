@@ -453,7 +453,82 @@ Ahora agregaremos código en la vista definida por el archivo ```auth.component.
 </div>
 ```
 Como podemos ver, la vista está conformada por etiquetas de tipo ```div```, así como formularios compuestos por distintos campos en los cuales el usuario podrá ingresar sus credenciales (nombre de usuario, email, contraseña). El valor de la variable ```title``` que se encuentra en la primera etiqueta ```h1``` de arriba hacia abajo es definido en la función ```ngOnInit``` en la clase ```auth.component.ts``` según la ruta a la que se dirija el usuario (Iniciar Sesión o Registro). La directiva ```[routerLink]``` determina el link que debe mostrarse según la ruta en la que se encuentre el usuario. Si dicha ruta corresponde al login, el texto del link será "Tiene una cuenta?", en caso contrario: "Cree una cuenta nueva". Cuando se hayan completado todos los campos necesarios, el botón que se encuentra descrito en la última parte del código llamará a la función ```submitForm``` que es empleada por el método que ya consideramos anteriormente ```attemptAuth```, que se encarga de validar la autenticación del usuario a partir de las credenciales ingresadas por este en los campos de texto.
-<br>
-Cuando termine de hacer esto, usted podrá ver que puede navegar entre las opciones de Iniciar Sesión y Registrarse, y ahora puede crear una "cuenta" con un nickname, un correo electrónico y una contraseña. Sin embargo, aun no puede ver su perfil de usuario ni comprobar que su cuenta ha sido registrada y autenticada por la aplicación, y que puede cerrar sesión y luego volver a ingresar al sistema sin ningún problema.<br>
+<br><br>
+Cuando termine de hacer esto, usted podrá ver que puede navegar entre las opciones de Iniciar Sesión y Registrarse, y ahora puede crear una "cuenta" con un nickname, un correo electrónico y una contraseña. Sin embargo, aun no puede ver su perfil de usuario ni comprobar que su cuenta ha sido registrada y autenticada por la aplicación, y que puede cerrar sesión y luego volver a ingresar al sistema sin ningún problema.<br><br>
+Para esto, editaremos el código del archivo ```settings.component.html``` ubicado en ```src/app/settings/settings.component.html```. Usted puede remplazar el contenido existente en dicho archivo por el siguiente código, que estudiaremos en seguida:
 
+```html
+<div class="settings-page">
+  <div class="container page">
+    <div class="row">
+      <div class="col-md-6 offset-md-3 col-xs-12">
 
+        <h1 class="text-xs-center">Su información</h1>
+
+        <app-list-errors [errors]="errors"></app-list-errors>
+
+        <form [formGroup]="settingsForm" (ngSubmit)="submitForm()">
+          <fieldset [disabled]="isSubmitting">
+
+            <fieldset class="form-group">
+              <input class="form-control"
+                type="text"
+                placeholder="URL de la foto de perfil"
+                formControlName="image" />
+            </fieldset>
+
+            <fieldset class="form-group">
+              <input class="form-control form-control-lg"
+                type="text"
+                placeholder="nombre de usuario"
+                formControlName="username" />
+            </fieldset>
+
+            <fieldset class="form-group">
+              <textarea class="form-control form-control-lg"
+                rows="8"
+                placeholder="escriba algo sobre usted"
+                formControlName="bio">
+              </textarea>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <input class="form-control form-control-lg"
+                type="email"
+                placeholder="correo electrónico"
+                formControlName="email" />
+            </fieldset>
+
+            <fieldset class="form-group">
+              <input class="form-control form-control-lg"
+                type="password"
+                placeholder="nueva contraseña"
+                formControlName="password" />
+            </fieldset>
+
+            <button class="btn btn-lg btn-primary pull-xs-right"
+              type="submit">
+              Actualizar
+            </button>
+
+          </fieldset>
+        </form>
+
+        <!-- Boton para cerrar sesion -->
+        <hr />
+
+        <button class="btn btn-outline-danger"
+          (click)="logout()">
+          Cerrar Sesión
+        </button>
+
+      </div>
+    </div>
+  </div>
+</div>
+```
+Este trozo de código es muy similar al que editamos en el archivo ```auth.component.html```, contiene etiquetas ```div``` así como formularios y campos para introducir texto. Esta vista corresponde al perfil del usuario. Allí, el usuario puede editar su información (nombre de usuario, email, contraseña, biografía e imagen de perfil) y puede guardar dichos cambios para actualizar la base de datos. En el campo para guardar una imagen de perfil, el usuario puede pegar la URL de una imagen en la web. Los elementos campos de texto simplemente servirán para retener la información que el usuario introduzca. Lo que nos interesa aquí es ver cómo se actualizan los datos en la API. El primer botón que encontramos, está asociado al grupo de formularios ```settingsForm```. AL hacer click sobre dicho botón, se llama a la función ```submitForm``` que le pasa a la función ```update``` del servicio ```UserService``` la información que el usuario desea actualizar en su perfil. La función ```update``` se encarga de realizar la petición tipo PUT a la API para actualizar un usuario específico en la base de datos.
+<br><br>
+Por último, el botón de Cerrar Sesión, hace un llamado a la función ```logout``` definida en ```UserService```, que se encarga de eliminar el token del usuario en la sesión actual, asigna al atributo ```currentUser``` el valor de Objeto vacío y al atributo ```isAuthenticated``` el valor ```false```, para finalmente cerrar la sesión anterior y permitir que otro usuario pueda ingresar a la aplicación.
+<br><br>
+Ahora nuestra aplicación está terminada y usted puede interactuar completamente con la misma. Puede navegar entre las secciones de Inicio, Registro e Inicio de Sesión; puede crear nuevos usuarios o loggearse con uno de ellos, además de poder editar y actualizar la información de los perfiles de usuario. Para comprobar que los usuarios creados persisten en la base de datos de la API, usted puede cerrar sesión y volver a loggearse con las credenciales de un usuario específico.
